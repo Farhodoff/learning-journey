@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML va CSS Responsive Refresher</title>
+</head>
+<body>
+  <!--
+  Ushbu faylning asosiy kontenti markdown ko‘rinishida.
+  Linter xatolarini oldini olish uchun u izohga olindi.
+  -->
+  <!--
+
+**HTML & CSS Refresher – Responsive Design (Media Queries va mobil dizayn prinsiplari)**  
+
+---
+
+## 1️⃣ Nima uchun “responsive” (javob beruvchi) dizayn kerak?
+
+- **Foydalanuvchi qurilmalari turli‑turli bo‘ladi** – telefon, planshet, laptop, monitor.  
+- **Ekran o‘lchami va piksellar zichligi (pixel density) farq qiladi.**  
+- Bir sahifani har bir qurilmada **o‘qilishi, navigatsiyasi va foydalanish qulayligi yuqori** bo‘lishi kerak.
+
+**Responsive design** – sahifa kengligini, tartibini va uslublarini qurilmaning ekran o‘lchamiga moslab avtomatik o‘zgartiradigan yondashuv.
+
+---
+
+## 2️⃣ Mobil‑first yondashuv
+
+1. **Baza uslublarni “mobile” (kichik ekran) uchun yozish**  
+   - Eng oddiy, minimal kod bo‘ladi.  
+2. **Kattaroq ekranlar uchun `@media` qoidalarini qo‘shish**  
+   - `min-width` (kamida bu kenglikda) yoki `max-width` (maksimal bu kenglikda) shartlarini ishlatish.
+
+**Nima uchun?**  
+- Brauzer kichik ekanda oddiy CSS‑ni birinchi yuklaydi → sahifa tezroq yuklanadi.  
+- Kattaroq ekranlarda faqat qo‘shimcha qoida yuklanadi → kerak bo’lmagan kodni kamaytiradi.
+
+---
+
+## 3️⃣ Media Queries – asosiy sintaksis
+
+```css
+/* 1️⃣ Baza (mobile‑first) */
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 1rem;
+}
+
+/* 2️⃣ Tablet (≥ 768px) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+/* 3️⃣ Desktop (≥ 1024px) */
+@media (min-width: 1024px) {
+  .sidebar {
+    display: block;   /* kichik ekanda yashirin */
+    width: 250px;
+  }
+}
+```
+
+### Media query turlari
+
+| Shart                     | Ma’nosi                                               |
+|---------------------------|------------------------------------------------------|
+| `@media (max-width: 599px)`   | Ekran kengligi **599 px va kichik** bo‘lganda.       |
+| `@media (min-width: 600px)`   | **600 px dan katta yoki teng** bo‘lganda.           |
+| `@media (orientation: portrait)` | Qurilma **baland (portrait)** holatda.          |
+| `@media (orientation: landscape)`| Qurilma **keng (landscape)** holatda.            |
+| `@media (hover: hover)`        | Foydalanuvchi sichqoncha/kursor yordamida “hover” qilishi mumkin. |
+| `@media (prefers-color-scheme: dark)` | Foydalanuvchi “dark mode” ni yoqgan holat.   |
+
+> **Esda tuting:** `max-width` + `min-width` kombinatsiyasini “range” sifatida ham ishlatish mumkin:  
+> ```css
+> @media (min-width: 600px) and (max-width: 899px) { … }
+> ```
+
+---
+
+## 4️⃣ Mobil‑friendly dizayn prinsiplari
+
+| Prinsip | Tavsiyalar |
+|---------|------------|
+| **Flexbox / Grid** | Satr‑ustun (row‑column) tartibini avtomatik moslash uchun. |
+| **Sarlavhalarni (headings) o‘lchamlari** | `clamp()` funksiyasi bilan dinamik o‘lcham: <br>`font-size: clamp(1rem, 2.5vw, 2rem);` |
+| **Rasm va video** | `max-width: 100%; height: auto;` – kontentni konteynerga sig‘diradi. |
+| **Touch‑friendly elementlar** | Tugmalarni kamida `44×44 px` qilish, `:active`/`:focus` holatlarini ko‘rsatish. |
+| **Navigatsiya** | Kichik ekanda “hamburger” menyu, off‑canvas panel yoki accordions. |
+| **Viewport meta tag** | HTML‑ga quyidagini qo‘shish: <br>`<meta name="viewport" content="width=device-width, initial-scale=1">` |
+| **Performance** | Rasmni `srcset` / `picture` yordamida bir necha rezolyutsiyalarda taqdim etish, CSS‑ni minimalga keltirish. |
+
+---
+
+## 5️⃣ Amaliy misol – “Responsive Card”
+
+### HTML (index.html)
+
+```html
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsive Card</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="cards">
+    <article class="card">
+      <img src="img/placeholder-300.jpg" alt="Mahsulot rasmi">
+      <h2>Mahsulot nomi</h2>
+      <p class="price">$19.99</p>
+      <p class="desc">Qisqa tavsif...</p>
+      <button>Ko‘proq</button>
+    </article>
+    <!-- boshqa kartalar ham shu yerda -->
+  </section>
+</body>
+</html>
+```
+
+### CSS (styles.css)
+
+```css
+/* 0️⃣ Baza – mobil */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  background: #f5f5f5;
+  color: #333;
+}
+.cards {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  /* 1 ustun */
+  grid-template-columns: 1fr;
+}
+.card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  display: flex;
+  flex-direction: column;
+}
+.card img {
+  width: 100%;
+  height: auto;
+}
+.card h2 { margin: .5rem 1rem; font-size: 1.2rem; }
+.price   { margin: 0 1rem; color: #e91e63; font-weight: bold; }
+.desc    { margin: .5rem 1rem; flex-grow: 1; }
+button {
+  margin: 1rem;
+  padding: .5rem 1rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 1️⃣ Tablet (≥ 600px) – 2 ta ustun */
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 2️⃣ Desktop (≥ 1024px) – 4 ta ustun */
+@media (min-width: 1024px) {
+  .cards { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* 3️⃣ Dark mode */
+@media (prefers-color-scheme: dark) {
+  body { background: #212121; color: #e0e0e0; }
+  .card { background: #2e2e2e; }
+  button { background: #bb86fc; }
+}
+```
+
+**Natija:**  
+- Telefon (≤ 599 px) – bir ustundan kartalar.  
+- Tablet (600 – 1023 px) – ikki ustun.  
+- Desktop (≥ 1024 px) – to‘rt ustun.  
+- Foydalanuvchi dark‑mode’ni yoqqan bo‘lsa, ranglar avtomatik moslashadi.
+
+---
+
+## 6️⃣ Tez‑tez ishlatiladigan «Responsive Tricks»
+
+| Trik | Qisqa kod |
+|------|-----------|
+| **1. Fluid typography** | `font-size: clamp(0.9rem, 2vw, 1.5rem);` |
+| **2. Aspect‑ratio** (rasm/videni kvadrat qilish) | `img { aspect-ratio: 16 / 9; object-fit: cover; }` |
+| **3. Flex‑wrap** (elementlarni kerak bo‘lganda yangi qatorga) | `.nav { display: flex; flex-wrap: wrap; gap: .5rem; }` |
+| **4. Mobile‑only “hide”** | `@media (min-width: 600px) { .mobile-hide { display: none; } }` |
+| **5. Off‑canvas menyu** | `<input type="checkbox" id="nav-toggle">` + CSS `#nav-toggle:checked ~ .menu { transform: translateX(0); }` |
+
+---
+
+## 7️⃣ Xulosa & Tavsiyalar
+
+1. **Mobil‑first** yondashuvni birinchi bosqichda qabul qiling.  
+2. **Flexbox yoki CSS Grid** bilan struktura yaratib, kichik ekranlarda bir ustun, kattaroqlarda bir necha ustun qilish oson.  
+3. **Media query‑larni mantiqiy tartibda joylashtiring** – kichikdan kattasiga (`max‑width` → `min‑width`) yoki aksincha, lekin izchil.  
+4. **Viewport meta tag**ni har doim qo‘ying, aks holda mobil brauzerlar sahifani “zoom out” qiladi.  
+5. **Performance‑ga e’tibor bering** – `srcset`, `picture`, `loading="lazy"` bilan rasmni yuklashni kechiktiring.  
+6. **Test qilish** – Chrome DevTools (Device Toolbar) yoki **Responsive Design Mode** (Firefox) da turli ekran o‘lchamlarini sinab ko‘ring.
+
+  Agar aniq bir loyiha yoki komponent bo‘yicha kod misollari yoki qo‘shimcha savollar bo‘lsa, bemalol so‘rashingiz mumkin! 🚀
+
+  -->
+</body>
+</html>
