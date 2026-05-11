@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+# **Muhim** – loyiha konfiguratsiyasi fayli. Bu yerda siz loyihangizning barcha konfiguratsiyasini saqlaysiz: ma'lumotlar bazasi, statik fayllar, o'rnatilgan ilovalar va boshqalar. Django loyihasining yuragi hisoblanadi.
 
 from pathlib import Path
-
+# Loyihaning asosiy papkasini (django-kurs/) aniqlash, yo‘llarni nisbiy ko‘rsatish uchun.
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,9 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+#Kriptografik kalit – ishlab chiqishda har qanday, prod‑da mustahkam va maxfiy bo‘lishi kerak.
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b58)la=qdlsv(tc5k&940qzh(tsy5gcll4u+d+pye^3gw#ma3+'
+SECRET_KEY = 'django-insecure-8vitigj6ioiu4s+swkx=_bjce#1cbmx3aqv1z5u=#@lj)_=1n)'
 
+#True → ishlab chiqishda batafsil xatolar, False → prod‑da xavfsizlik.
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

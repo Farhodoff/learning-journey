@@ -1,0 +1,1 @@
+# Pythonda paket ekanligini ko‘rsatadi

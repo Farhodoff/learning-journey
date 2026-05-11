@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# URL‑marshrutizatsiya (marshrutlar ro‘yxati) – URL manzillarini ko‘rib chiqish va ularni tegishli ko‘rinishlarga yo‘naltirish uchun ishlatiladi. Har bir URL manzili uchun mos ko‘rinish (view) belgilaysiz, bu esa foydalanuvchi so‘roviga javob beradi. Bu fayl loyihangizning URL manzillarini boshqaradi va har bir URL manziliga mos ko‘rinishlarni belgilaydi.
 from django.contrib import admin
 from django.urls import path
 
